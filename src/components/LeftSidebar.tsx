@@ -30,18 +30,18 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
             onClick={() => onSelectTab('coinflip')}
             className={`w-full flex flex-col items-center py-3 px-1 rounded-xl transition-all duration-200 cursor-pointer ${
               currentTab === 'coinflip'
-                ? 'bg-gradient-to-b from-[#141f30] to-[#0f1724] text-white shadow-[0_0_15px_rgba(0,240,144,0.2)] border border-[#00f090]/50'
+                ? 'bg-gradient-to-b from-[#141f30] to-[#0f1724] text-white shadow-[0_0_15px_rgba(43,107,245,0.2)] border border-[#2b6bf5]/50'
                 : 'text-slate-400 hover:text-white hover:bg-[#121926] border border-transparent'
             }`}
           >
             <div className="relative flex items-center justify-center">
               <i
                 className={`fa-solid fa-gamepad text-xl mb-1.5 transition-transform hover:scale-110 ${
-                  currentTab === 'coinflip' ? 'text-[#00f090]' : 'text-slate-400'
+                  currentTab === 'coinflip' ? 'text-[#4c82ff]' : 'text-slate-400'
                 }`}
               />
               {currentTab === 'coinflip' && (
-                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#00f090] animate-pulse shadow-[0_0_6px_#00f090]" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#2b6bf5] animate-pulse shadow-[0_0_6px_#2b6bf5]" />
               )}
             </div>
             <span className="font-gaming text-[11px] font-black tracking-wider leading-none">
@@ -55,13 +55,13 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
             onClick={() => onSelectTab('leaderboard')}
             className={`w-full flex flex-col items-center py-3 px-1 rounded-xl transition-all duration-200 cursor-pointer ${
               currentTab === 'leaderboard'
-                ? 'bg-gradient-to-b from-[#141f30] to-[#0f1724] text-white shadow-[0_0_15px_rgba(0,240,144,0.2)] border border-[#00f090]/50'
+                ? 'bg-gradient-to-b from-[#141f30] to-[#0f1724] text-white shadow-[0_0_15px_rgba(43,107,245,0.2)] border border-[#2b6bf5]/50'
                 : 'text-slate-400 hover:text-white hover:bg-[#121926] border border-transparent'
             }`}
           >
             <Trophy
               className={`w-5 h-5 mb-1.5 transition-transform hover:scale-110 ${
-                currentTab === 'leaderboard' ? 'text-[#00f090]' : 'text-slate-400'
+                currentTab === 'leaderboard' ? 'text-[#4c82ff]' : 'text-slate-400'
               }`}
             />
             <span className="font-gaming text-[10px] font-black tracking-wider leading-none text-center">
@@ -75,7 +75,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
             onClick={onOpenFaq}
             className="w-full flex flex-col items-center py-3 px-1 rounded-xl transition-all duration-200 text-slate-400 hover:text-white hover:bg-[#121926] border border-transparent cursor-pointer"
           >
-            <HelpCircle className="w-5 h-5 mb-1.5 text-slate-400 hover:text-[#00f090] transition-colors" />
+            <HelpCircle className="w-5 h-5 mb-1.5 text-slate-400 hover:text-[#4c82ff] transition-colors" />
             <span className="font-gaming text-[11px] font-black tracking-wider leading-none">
               FAQ
             </span>
@@ -98,7 +98,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
         <button
           onClick={onOpenFairStats}
           id="btn-sidebar-fairstats"
-          className="flex flex-col items-center text-[9px] font-gaming font-black text-slate-400 hover:text-[#00f090] transition uppercase tracking-wider py-1 cursor-pointer"
+          className="flex flex-col items-center text-[9px] font-gaming font-black text-slate-400 hover:text-[#4c82ff] transition uppercase tracking-wider py-1 cursor-pointer"
           title="Provably Fair Cryptographic Verification"
         >
           <span>FAIR</span>

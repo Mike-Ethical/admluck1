@@ -22,10 +22,10 @@ export const MatchActionBar: React.FC<MatchActionBarProps> = ({
         <button
           onClick={onCreateMatch}
           id="btn-create-match"
-          className="relative group overflow-hidden bg-gradient-to-r from-[#00f090] via-[#00e285] to-[#00cf78] hover:from-[#00ff9a] hover:to-[#00e285] text-slate-950 font-gaming font-black text-xs sm:text-sm px-4 sm:px-5 py-2.5 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer shadow-[0_0_20px_rgba(0,240,144,0.35)] hover:shadow-[0_0_25px_rgba(0,240,144,0.5)] flex items-center gap-2"
+          className="relative group overflow-hidden bg-gradient-to-r from-[#2b6bf5] via-[#3476ff] to-[#194bc5] hover:from-[#4c82ff] hover:to-[#3476ff] text-white font-gaming font-black text-xs sm:text-sm px-4 sm:px-5 py-2.5 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer shadow-[0_0_20px_rgba(43,107,245,0.35)] hover:shadow-[0_0_25px_rgba(43,107,245,0.5)] flex items-center gap-2"
         >
           <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-          <i className="fa-solid fa-paw text-base text-slate-950 transition-transform group-hover:scale-110" />
+          <i className="fa-solid fa-paw text-base text-white transition-transform group-hover:scale-110" />
           <span className="tracking-wider uppercase">Create Coinflip</span>
         </button>
 
@@ -50,11 +50,11 @@ export const MatchActionBar: React.FC<MatchActionBarProps> = ({
           }}
           className={`px-3 py-1.5 rounded-lg text-xs font-gaming font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
             !showOnlyMyMatches
-              ? 'bg-[#152033] text-[#00f090] border border-[#00f090]/30 shadow-sm'
+              ? 'bg-[#152033] text-[#4c82ff] border border-[#2b6bf5]/30 shadow-sm'
               : 'text-slate-400 hover:text-white'
           }`}
         >
-          <Flame className={`w-3.5 h-3.5 ${!showOnlyMyMatches ? 'text-[#00f090]' : 'text-slate-500'}`} />
+          <Flame className={`w-3.5 h-3.5 ${!showOnlyMyMatches ? 'text-[#4c82ff]' : 'text-slate-500'}`} />
           <span>All Battles</span>
         </button>
 
@@ -65,15 +65,15 @@ export const MatchActionBar: React.FC<MatchActionBarProps> = ({
           id="btn-my-matches"
           className={`px-3 py-1.5 rounded-lg text-xs font-gaming font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
             showOnlyMyMatches
-              ? 'bg-[#00f090]/20 text-[#00f090] border border-[#00f090]/50 shadow-[0_0_12px_rgba(0,240,144,0.25)]'
+              ? 'bg-[#2b6bf5]/20 text-[#4c82ff] border border-[#2b6bf5]/50 shadow-[0_0_12px_rgba(43,107,245,0.25)]'
               : 'text-slate-400 hover:text-white'
           }`}
           title="Filter to only matches you created"
         >
-          <Filter className={`w-3.5 h-3.5 ${showOnlyMyMatches ? 'text-[#00f090]' : 'text-slate-500'}`} />
+          <Filter className={`w-3.5 h-3.5 ${showOnlyMyMatches ? 'text-[#4c82ff]' : 'text-slate-500'}`} />
           <span>My Battles</span>
           {showOnlyMyMatches && (
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00f090] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#2b6bf5] animate-pulse" />
           )}
         </button>
       </div>

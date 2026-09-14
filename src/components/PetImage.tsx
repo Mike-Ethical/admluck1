@@ -47,7 +47,7 @@ export const PetImage: React.FC<PetImageProps> = ({ src, alt, className = 'w-10 
     <div className={`relative flex items-center justify-center rounded overflow-hidden select-none shrink-0 ${className}`}>
       {isLoading && !hasError && (
         <div className="absolute inset-0 bg-slate-800/40 animate-pulse flex items-center justify-center">
-          <div className="w-2.5 h-2.5 rounded-full border border-[#00f090] border-t-transparent animate-spin" />
+          <div className="w-2.5 h-2.5 rounded-full border border-[#2b6bf5] border-t-transparent animate-spin" />
         </div>
       )}
 

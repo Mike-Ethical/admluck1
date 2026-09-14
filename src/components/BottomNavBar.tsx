@@ -45,7 +45,7 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
           title="Browse Coinflip Matches"
         >
           <div className="relative p-1.5 rounded-xl group-hover:bg-[#141b2a] transition flex items-center justify-center">
-            <Flame className="w-5 h-5 text-[#00f090] group-hover:drop-shadow-[0_0_8px_rgba(0,240,144,0.6)]" />
+            <Flame className="w-5 h-5 text-[#4c82ff] group-hover:drop-shadow-[0_0_8px_rgba(43,107,245,0.6)]" />
           </div>
           <span className="text-[11px] font-gaming font-bold tracking-wider uppercase mt-0.5 text-slate-300 group-hover:text-white">
             Coinflips
@@ -61,9 +61,9 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
         >
           <div className="relative p-1.5 rounded-xl group-hover:bg-[#141b2a] transition flex items-center justify-center">
             <div className="relative">
-              <Package className="w-5 h-5 text-[#00f090] group-hover:drop-shadow-[0_0_8px_rgba(0,240,144,0.6)]" />
+              <Package className="w-5 h-5 text-[#4c82ff] group-hover:drop-shadow-[0_0_8px_rgba(43,107,245,0.6)]" />
               {inventoryCount > 0 && (
-                <span className="absolute -top-1.5 -right-2.5 px-1.5 py-0.2 rounded-full bg-[#00f090] text-slate-950 font-mono font-bold text-[9px] leading-tight shadow-sm">
+                <span className="absolute -top-1.5 -right-2.5 px-1.5 py-0.2 rounded-full bg-[#2b6bf5] text-white font-mono font-bold text-[9px] leading-tight shadow-sm">
                   {inventoryCount}
                 </span>
               )}
@@ -79,24 +79,24 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
           onClick={onToggleChat}
           id="btn-nav-chat"
           className={`flex flex-col items-center justify-center flex-1 py-1 transition group cursor-pointer active:scale-95 ${
-            isChatOpen ? 'text-[#00f090]' : 'text-slate-400 hover:text-white'
+            isChatOpen ? 'text-[#4c82ff]' : 'text-slate-400 hover:text-white'
           }`}
           title={isChatOpen ? 'Close Live Chat' : 'Open Live Chat'}
         >
           <div className={`relative p-1.5 rounded-xl transition flex items-center justify-center ${
-            isChatOpen ? 'bg-[#00f090]/15 shadow-[0_0_12px_rgba(0,240,144,0.3)]' : 'group-hover:bg-[#141b2a]'
+            isChatOpen ? 'bg-[#2b6bf5]/15 shadow-[0_0_12px_rgba(43,107,245,0.3)]' : 'group-hover:bg-[#141b2a]'
           }`}>
             <div className="relative">
-              <MessageSquare className="w-5 h-5 text-[#00f090] group-hover:drop-shadow-[0_0_8px_rgba(0,240,144,0.6)]" />
+              <MessageSquare className="w-5 h-5 text-[#4c82ff] group-hover:drop-shadow-[0_0_8px_rgba(43,107,245,0.6)]" />
               {/* Online pulse indicator */}
               <span className="absolute -top-1 -right-1.5 flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00f090] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#00f090]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2b6bf5] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2b6bf5]"></span>
               </span>
             </div>
           </div>
           <span className={`text-[11px] font-gaming font-bold tracking-wider uppercase mt-0.5 ${
-            isChatOpen ? 'text-[#00f090]' : 'text-slate-300 group-hover:text-white'
+            isChatOpen ? 'text-[#4c82ff]' : 'text-slate-300 group-hover:text-white'
           }`}>
             Chat {onlineCount > 0 ? `(${onlineCount})` : ''}
           </span>

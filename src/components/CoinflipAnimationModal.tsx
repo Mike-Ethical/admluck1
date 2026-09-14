@@ -169,7 +169,7 @@ export const CoinflipAnimationModal: React.FC<CoinflipAnimationModalProps> = ({
           </div>
 
           <p className="text-slate-400 text-xs mt-2 max-w-xs">
-            Bet: <span className="text-[#00f090] font-mono font-bold">{formatCompactValue(match.creator.totalValue)} Val</span>
+            Bet: <span className="text-[#4c82ff] font-mono font-bold">{formatCompactValue(match.creator.totalValue)} Val</span>
           </p>
 
           {!isCreator && onJoinMatch && (
@@ -178,7 +178,7 @@ export const CoinflipAnimationModal: React.FC<CoinflipAnimationModalProps> = ({
                 onClose();
                 onJoinMatch(match);
               }}
-              className="mt-5 w-full py-3 rounded-xl bg-[#00f090] hover:bg-[#00dc82] text-slate-950 font-gaming font-black text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer shadow-[0_0_20px_rgba(0,240,144,0.3)]"
+              className="mt-5 w-full py-3 rounded-xl bg-[#2b6bf5] hover:bg-[#1f5de0] text-white font-gaming font-black text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer shadow-[0_0_20px_rgba(43,107,245,0.3)]"
             >
               Join Coinflip
             </button>

@@ -496,7 +496,7 @@ export function App() {
   });
 
   return (
-    <div className="min-h-screen bg-[#0a0d14] text-slate-100 flex flex-col font-sans selection:bg-[#00f090] selection:text-slate-950">
+    <div className="min-h-screen bg-[#050a16] text-slate-100 flex flex-col font-sans selection:bg-[#2b6bf5] selection:text-white">
       {/* Top Navigation Bar matching Screenshot 1 */}
       <TopBar
         user={currentUser}

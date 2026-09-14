@@ -90,7 +90,7 @@ export const JoinMatchModal: React.FC<JoinMatchModalProps> = ({
         {/* Header */}
         <div className="px-5 py-3.5 border-b border-[#1b2538] flex items-center justify-between bg-[#131a29]">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#00f090] shadow-[0_0_8px_#00f090]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#2b6bf5] shadow-[0_0_8px_#2b6bf5]" />
             <h2 className="font-gaming font-black text-white text-base tracking-wider uppercase">
               Join Coinflip #{match.id.replace('match-', '')}
             </h2>
@@ -164,7 +164,7 @@ export const JoinMatchModal: React.FC<JoinMatchModalProps> = ({
                   </span>
                 )}
               </span>
-              <span className="font-mono text-xs text-[#00f090] font-bold">
+              <span className="font-mono text-xs text-[#4c82ff] font-bold">
                 {formatCompactValue(totalSelectedValue)} / {formatCompactValue(creatorValue)} Val
               </span>
             </div>
@@ -183,12 +183,12 @@ export const JoinMatchModal: React.FC<JoinMatchModalProps> = ({
                       onClick={() => toggleSelect(item.id)}
                       className={`p-2 rounded-xl border transition-all cursor-pointer relative flex flex-col items-center text-center ${
                         isSelected
-                          ? 'bg-[#00f090]/15 border-[#00f090] shadow-[0_0_8px_rgba(0,240,144,0.3)]'
+                          ? 'bg-[#2b6bf5]/15 border-[#2b6bf5] shadow-[0_0_8px_rgba(43,107,245,0.3)]'
                           : 'bg-[#121927] border-[#1d273a] hover:border-slate-500'
                       }`}
                     >
                       {isSelected && (
-                        <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[#00f090] text-slate-950 flex items-center justify-center">
+                        <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[#2b6bf5] text-white flex items-center justify-center">
                           <Check className="w-3 h-3 stroke-[3]" />
                         </div>
                       )}
@@ -196,7 +196,7 @@ export const JoinMatchModal: React.FC<JoinMatchModalProps> = ({
                       <span className="font-gaming font-bold text-white text-[11px] truncate w-full">
                         {item.petName}
                       </span>
-                      <span className="text-[10px] text-[#00f090] font-mono font-bold">
+                      <span className="text-[10px] text-[#4c82ff] font-mono font-bold">
                         {formatCompactValue(item.value)} Val
                       </span>
                     </div>
@@ -212,7 +212,7 @@ export const JoinMatchModal: React.FC<JoinMatchModalProps> = ({
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
               <span className="text-[10px] text-slate-400 uppercase font-gaming">Your Bet:</span>
-              <span className={`text-sm font-bold font-mono ${isValueInRange ? 'text-[#00f090]' : 'text-amber-400'}`}>
+              <span className={`text-sm font-bold font-mono ${isValueInRange ? 'text-[#4c82ff]' : 'text-amber-400'}`}>
                 {formatCompactValue(totalSelectedValue)} Val
               </span>
               <span className="text-[11px] text-slate-500 font-mono">
@@ -220,7 +220,7 @@ export const JoinMatchModal: React.FC<JoinMatchModalProps> = ({
               </span>
             </div>
             {selectedIds.length > 0 && (
-              <span className={`text-[10px] font-gaming ${isValueInRange ? 'text-[#00f090]' : 'text-rose-400'}`}>
+              <span className={`text-[10px] font-gaming ${isValueInRange ? 'text-[#4c82ff]' : 'text-rose-400'}`}>
                 {isValueInRange
                   ? '✓ Value matches host requirement!'
                   : totalSelectedValue < minRange
@@ -241,7 +241,7 @@ export const JoinMatchModal: React.FC<JoinMatchModalProps> = ({
               onClick={handleJoin}
               disabled={isSubmitting || selectedIds.length === 0 || !isValueInRange}
               id="btn-confirm-join-match"
-              className="px-5 py-2 rounded-xl bg-[#00f090] hover:bg-[#00d680] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#00f090] text-slate-950 font-gaming font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(0,240,144,0.35)] cursor-pointer"
+              className="px-5 py-2 rounded-xl bg-[#2b6bf5] hover:bg-[#1f5de0] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#2b6bf5] text-white font-gaming font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(43,107,245,0.35)] cursor-pointer"
             >
               {isSubmitting ? 'Joining...' : 'Confirm & Flip'}
             </button>

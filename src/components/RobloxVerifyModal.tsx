@@ -117,7 +117,7 @@ export const RobloxVerifyModal: React.FC<RobloxVerifyModalProps> = ({
         {/* Header */}
         <div className="px-5 py-3.5 border-b border-[#1b2538] flex items-center justify-between bg-[#121825]">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-[#00f090]" />
+            <ShieldCheck className="w-5 h-5 text-[#4c82ff]" />
             <h2 className="font-gaming font-black text-white text-sm tracking-wider uppercase">
               {user.verified ? 'Roblox Account' : 'Sign In With Roblox'}
             </h2>
@@ -158,7 +158,7 @@ export const RobloxVerifyModal: React.FC<RobloxVerifyModalProps> = ({
                         ADMIN
                       </span>
                     ) : (
-                      <span className="px-1.5 py-0.5 rounded bg-[#00f090]/20 text-[#00f090] text-[10px] font-bold">
+                      <span className="px-1.5 py-0.5 rounded bg-[#2b6bf5]/20 text-[#4c82ff] text-[10px] font-bold">
                         VERIFIED
                       </span>
                     )}
@@ -216,7 +216,7 @@ export const RobloxVerifyModal: React.FC<RobloxVerifyModalProps> = ({
                     onChange={(e) => setUsernameInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleGeneratePhrase()}
                     placeholder="Enter Roblox username (e.g. cute240bunny)"
-                    className="w-full bg-[#141c2c] border border-[#233047] rounded-xl px-4 py-3 text-sm text-white font-gaming focus:border-[#00f090] focus:outline-none placeholder:text-slate-600"
+                    className="w-full bg-[#141c2c] border border-[#233047] rounded-xl px-4 py-3 text-sm text-white font-gaming focus:border-[#2b6bf5] focus:outline-none placeholder:text-slate-600"
                     autoFocus
                   />
                 </div>
@@ -228,7 +228,7 @@ export const RobloxVerifyModal: React.FC<RobloxVerifyModalProps> = ({
               <button
                 onClick={handleGeneratePhrase}
                 disabled={loading || !usernameInput.trim()}
-                className="w-full py-3 rounded-xl bg-[#00f090] hover:bg-[#00d680] disabled:opacity-50 text-slate-950 font-gaming font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,240,144,0.25)]"
+                className="w-full py-3 rounded-xl bg-[#2b6bf5] hover:bg-[#1f5de0] disabled:opacity-50 text-white font-gaming font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(43,107,245,0.25)]"
               >
                 {loading ? (
                   <>
@@ -274,7 +274,7 @@ export const RobloxVerifyModal: React.FC<RobloxVerifyModalProps> = ({
                     href={profileUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="px-2.5 py-1 rounded bg-[#1b263b] hover:bg-[#23314c] text-xs text-[#00f090] flex items-center gap-1 font-bold shrink-0 transition"
+                    className="px-2.5 py-1 rounded bg-[#1b263b] hover:bg-[#23314c] text-xs text-[#4c82ff] flex items-center gap-1 font-bold shrink-0 transition"
                   >
                     <span>Profile</span>
                     <ExternalLink className="w-3 h-3" />
@@ -288,7 +288,7 @@ export const RobloxVerifyModal: React.FC<RobloxVerifyModalProps> = ({
                   <span className="text-xs text-slate-300 font-gaming font-bold">
                     Bio Phrase (Untagged by Roblox):
                   </span>
-                  <span className="text-[10px] text-[#00f090] font-bold flex items-center gap-1">
+                  <span className="text-[10px] text-[#4c82ff] font-bold flex items-center gap-1">
                     <Sparkles className="w-3 h-3" /> Filter-safe
                   </span>
                 </div>
@@ -303,8 +303,8 @@ export const RobloxVerifyModal: React.FC<RobloxVerifyModalProps> = ({
                   >
                     {copied ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-[#00f090]" />
-                        <span className="text-[#00f090]">Copied!</span>
+                        <Check className="w-3.5 h-3.5 text-[#4c82ff]" />
+                        <span className="text-[#4c82ff]">Copied!</span>
                       </>
                     ) : (
                       <>
@@ -325,7 +325,7 @@ export const RobloxVerifyModal: React.FC<RobloxVerifyModalProps> = ({
               <button
                 onClick={handleConfirmVerification}
                 disabled={loading}
-                className="w-full py-3 rounded-xl bg-[#00f090] hover:bg-[#00d680] disabled:opacity-50 text-slate-950 font-gaming font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,240,144,0.25)]"
+                className="w-full py-3 rounded-xl bg-[#2b6bf5] hover:bg-[#1f5de0] disabled:opacity-50 text-white font-gaming font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(43,107,245,0.25)]"
               >
                 {loading ? (
                   <>

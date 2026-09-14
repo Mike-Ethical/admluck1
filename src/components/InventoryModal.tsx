@@ -228,7 +228,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
         {/* Header */}
         <div className="px-3 sm:px-5 py-2.5 sm:py-3 border-b border-[#1b2538] flex items-center justify-between bg-[#121825] shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#00f090]/20 border border-[#00f090]/40 flex items-center justify-center text-[#00f090] shrink-0">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#2b6bf5]/20 border border-[#2b6bf5]/40 flex items-center justify-center text-[#4c82ff] shrink-0">
               <PackageCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
             <div>
@@ -236,13 +236,13 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                 <h2 className="font-gaming font-black text-white text-xs sm:text-sm tracking-wider uppercase">
                   Adopt Me Vault
                 </h2>
-                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[#172236] text-[#00f090] font-mono border border-[#00f090]/30">
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[#172236] text-[#4c82ff] font-mono border border-[#2b6bf5]/30">
                   {inventory.length}
                 </span>
               </div>
               <div className="flex items-center gap-2 text-[10px] sm:text-[11px] text-slate-400 font-mono">
                 <span>Account: <strong className="text-white">{robloxUsername || 'cute240bunny'}</strong></span>
-                <span className="text-[#00f090] font-bold">
+                <span className="text-[#4c82ff] font-bold">
                   {formatCompactValue(totalValue)} Val
                 </span>
               </div>
@@ -254,7 +254,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
             {/* Deposit Button */}
             <button
               onClick={() => setIsDepositOpen(true)}
-              className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-[#00f090] hover:bg-[#00dc82] text-slate-950 font-gaming font-black text-[11px] sm:text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer shadow-[0_0_10px_rgba(0,240,144,0.3)]"
+              className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-[#2b6bf5] hover:bg-[#1f5de0] text-white font-gaming font-black text-[11px] sm:text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer shadow-[0_0_10px_rgba(43,107,245,0.3)]"
               title="Deposit Adopt Me pets into your vault"
             >
               <ArrowDownToLine className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.5]" />
@@ -295,7 +295,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
         {withdrawSuccess && (
           <div className="px-4 py-3 bg-gradient-to-r from-emerald-950/90 to-[#0e1f18] border-b border-emerald-500/40 text-emerald-200 text-xs flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#00f090] shrink-0" />
+              <Sparkles className="w-4 h-4 text-[#4c82ff] shrink-0" />
               <span>
                 <strong>Withdrawal Confirmed!</strong> {withdrawSuccess.count} pet(s) ({formatCompactValue(withdrawSuccess.value)} Val) removed from your vault.
               </span>
@@ -317,7 +317,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
         {tipSuccessMessage && (
           <div className="px-4 py-3 bg-gradient-to-r from-emerald-950/90 to-[#0e1f18] border-b border-emerald-500/40 text-emerald-200 text-xs flex items-center justify-between flex-wrap gap-2 animate-fadeIn">
             <div className="flex items-center gap-2">
-              <Gift className="w-4 h-4 text-[#00f090] shrink-0" />
+              <Gift className="w-4 h-4 text-[#4c82ff] shrink-0" />
               <span>
                 <strong>Tip Sent!</strong> {tipSuccessMessage}
               </span>
@@ -345,7 +345,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
             <div className="flex items-start justify-between">
               <div className="space-y-2 max-w-2xl">
                 <div className="flex items-center gap-2 text-white font-gaming font-bold text-sm">
-                  <ArrowDownToLine className="w-4 h-4 text-[#00f090]" />
+                  <ArrowDownToLine className="w-4 h-4 text-[#4c82ff]" />
                   <span>How to Deposit Adopt Me Pets</span>
                 </div>
                 <p className="text-slate-300 leading-relaxed text-xs">
@@ -391,13 +391,13 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                 placeholder="Search inventory pets..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#151c2a] border border-[#222c3f] rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00f090]"
+                className="w-full bg-[#151c2a] border border-[#222c3f] rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#2b6bf5]"
               />
             </div>
 
             {/* In-game legitimate trading notice badge */}
             <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-slate-400 bg-[#141b27] px-2.5 py-1.5 rounded border border-[#212b3e]">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#00f090]" />
+              <ShieldCheck className="w-3.5 h-3.5 text-[#4c82ff]" />
               <span>In-game delivery via Discord</span>
             </div>
           </div>
@@ -410,7 +410,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                 onClick={() => setActiveTab(tab)}
                 className={`px-2.5 py-1 rounded text-[11px] font-gaming font-bold tracking-wider whitespace-nowrap transition-colors cursor-pointer ${
                   activeTab === tab
-                    ? 'bg-[#00f090] text-slate-950 shadow-[0_0_8px_rgba(0,240,144,0.3)]'
+                    ? 'bg-[#2b6bf5] text-white shadow-[0_0_8px_rgba(43,107,245,0.3)]'
                     : 'bg-[#151c2a] text-slate-400 hover:text-slate-200 border border-[#20293b]'
                 }`}
               >
@@ -432,7 +432,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
               <div className="pt-2">
                 <button
                   onClick={() => setIsDepositOpen(true)}
-                  className="px-4 py-2 rounded-lg bg-[#00f090] hover:bg-[#00dc82] text-slate-950 font-gaming font-black text-xs uppercase tracking-wider transition shadow-[0_0_15px_rgba(0,240,144,0.3)] cursor-pointer"
+                  className="px-4 py-2 rounded-lg bg-[#2b6bf5] hover:bg-[#1f5de0] text-white font-gaming font-black text-xs uppercase tracking-wider transition shadow-[0_0_15px_rgba(43,107,245,0.3)] cursor-pointer"
                 >
                   Deposit Adopt Me Pets
                 </button>
@@ -508,7 +508,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                       <span className="font-gaming font-bold text-white text-[11px] sm:text-xs block truncate" title={item.petName}>
                         {item.petName}
                       </span>
-                      <span className="text-[#00f090] font-mono font-bold text-[10px] sm:text-xs">
+                      <span className="text-[#4c82ff] font-mono font-bold text-[10px] sm:text-xs">
                         {formatCompactValue(item.value)} Val
                       </span>
                     </div>
@@ -555,7 +555,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                 className="px-2.5 py-1.5 rounded bg-[#162032] hover:bg-[#1d2b44] text-slate-300 font-gaming text-xs flex items-center gap-1 cursor-pointer border border-[#23314d]"
               >
                 {selectedIds.size === availableItems.length && availableItems.length > 0 ? (
-                  <CheckSquare className="w-3.5 h-3.5 text-[#00f090]" />
+                  <CheckSquare className="w-3.5 h-3.5 text-[#4c82ff]" />
                 ) : (
                   <Square className="w-3.5 h-3.5 text-slate-500" />
                 )}
@@ -563,9 +563,9 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                 <span>({availableItems.length})</span>
               </button>
               <div className="text-xs font-mono font-bold text-slate-300 flex items-center gap-1.5">
-                <span>Selected: <strong className="text-[#00f090]">{selectedIds.size}</strong></span>
+                <span>Selected: <strong className="text-[#4c82ff]">{selectedIds.size}</strong></span>
                 <span className="text-slate-500 hidden xs:inline">·</span>
-                <span className="text-[#00f090] hidden xs:flex items-center font-mono">
+                <span className="text-[#4c82ff] hidden xs:flex items-center font-mono">
                   <span>{selectedTotalValue} Val</span>
                 </span>
               </div>
@@ -580,9 +580,9 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                       setIsTipModalOpen(true);
                     }
                   }}
-                  className="px-2.5 py-1.5 rounded bg-[#162032] hover:bg-[#1f2d47] text-[#00f090] border border-[#00f090]/40 font-gaming text-xs flex items-center gap-1 cursor-pointer transition"
+                  className="px-2.5 py-1.5 rounded bg-[#162032] hover:bg-[#1f2d47] text-[#4c82ff] border border-[#2b6bf5]/40 font-gaming text-xs flex items-center gap-1 cursor-pointer transition"
                 >
-                  <Gift className="w-3 h-3 text-[#00f090]" />
+                  <Gift className="w-3 h-3 text-[#4c82ff]" />
                   <span>Tip</span>
                 </button>
               )}
@@ -598,7 +598,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
               <button
                 onClick={handleOpenConfirmModal}
                 disabled={selectedIds.size === 0}
-                className="px-3.5 py-1.5 rounded bg-[#00f090] hover:bg-[#00d980] text-slate-950 font-gaming font-black text-xs flex items-center gap-1.5 transition active:scale-95 disabled:opacity-40 cursor-pointer shadow-md"
+                className="px-3.5 py-1.5 rounded bg-[#2b6bf5] hover:bg-[#1f5de0] text-white font-gaming font-black text-xs flex items-center gap-1.5 transition active:scale-95 disabled:opacity-40 cursor-pointer shadow-md"
               >
                 <Send className="w-3 h-3 fill-current" />
                 <span>Withdraw ({selectedIds.size})</span>
@@ -613,10 +613,10 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
           if (!selectedPet) return null;
           return (
             <div className="fixed inset-0 bg-black/85 backdrop-blur-md z-60 flex items-center justify-center p-4 select-none animate-fadeIn">
-              <div className="bg-[#101624] border-2 border-[#00f090] rounded-xl w-full max-w-md p-5 shadow-2xl space-y-4">
+              <div className="bg-[#101624] border-2 border-[#2b6bf5] rounded-xl w-full max-w-md p-5 shadow-2xl space-y-4">
                 <div className="flex items-center justify-between border-b border-[#1e2a3f] pb-3">
-                  <div className="flex items-center gap-2 text-[#00f090] font-gaming font-black text-sm uppercase">
-                    <Gift className="w-5 h-5 text-[#00f090]" />
+                  <div className="flex items-center gap-2 text-[#4c82ff] font-gaming font-black text-sm uppercase">
+                    <Gift className="w-5 h-5 text-[#4c82ff]" />
                     <span>Tip Adopt Me Pet</span>
                   </div>
                   <button
@@ -634,7 +634,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                   <div>
                     <div className="font-bold text-white font-gaming text-sm">{selectedPet.petName}</div>
                     <div className="text-xs text-slate-400 font-mono">
-                      Value: <span className="text-[#00f090] font-bold">{selectedPet.totalValue} Val</span>
+                      Value: <span className="text-[#4c82ff] font-bold">{selectedPet.totalValue} Val</span>
                     </div>
                   </div>
                 </div>
@@ -650,7 +650,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                       value={tipTargetUser}
                       onChange={(e) => setTipTargetUser(e.target.value)}
                       placeholder="e.g. cute240bunny, player123"
-                      className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#00f090] focus:outline-none font-gaming"
+                      className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#2b6bf5] focus:outline-none font-gaming"
                     />
                     <p className="text-[11px] text-slate-400 mt-1">
                       Tip will transfer this pet immediately and broadcast a chat celebration!
@@ -668,7 +668,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                     <button
                       type="submit"
                       disabled={isTipping || !tipTargetUser.trim()}
-                      className="px-5 py-2 rounded-lg bg-[#00f090] hover:bg-[#00d980] text-slate-950 font-gaming font-black text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer shadow-lg flex items-center gap-2 disabled:opacity-50"
+                      className="px-5 py-2 rounded-lg bg-[#2b6bf5] hover:bg-[#1f5de0] text-white font-gaming font-black text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer shadow-lg flex items-center gap-2 disabled:opacity-50"
                     >
                       {isTipping ? (
                         <span>Sending Tip...</span>
@@ -689,10 +689,10 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
         {/* Withdrawal Confirmation Dialog */}
         {confirmModalOpen && (
           <div className="fixed inset-0 bg-black/85 backdrop-blur-md z-60 flex items-center justify-center p-4 select-none animate-fadeIn">
-            <div className="bg-[#101624] border-2 border-[#00f090] rounded-xl w-full max-w-lg p-5 shadow-2xl space-y-4">
+            <div className="bg-[#101624] border-2 border-[#2b6bf5] rounded-xl w-full max-w-lg p-5 shadow-2xl space-y-4">
               <div className="flex items-center justify-between border-b border-[#1e2a3f] pb-3">
-                <div className="flex items-center gap-2 text-[#00f090] font-gaming font-black text-sm uppercase">
-                  <ArrowUpRight className="w-5 h-5 text-[#00f090]" />
+                <div className="flex items-center gap-2 text-[#4c82ff] font-gaming font-black text-sm uppercase">
+                  <ArrowUpRight className="w-5 h-5 text-[#4c82ff]" />
                   <span>Confirm Pet Withdrawal</span>
                 </div>
                 <button
@@ -704,7 +704,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
               </div>
 
               <p className="text-xs text-slate-300 leading-relaxed">
-                Are you sure you want to withdraw the following <strong>{selectedIds.size} pet(s)</strong> (Total Value: <strong className="text-[#00f090]">{formatCompactValue(selectedTotalValue)} Val</strong>)?
+                Are you sure you want to withdraw the following <strong>{selectedIds.size} pet(s)</strong> (Total Value: <strong className="text-[#4c82ff]">{formatCompactValue(selectedTotalValue)} Val</strong>)?
               </p>
 
               {/* Selected Pets Preview */}
@@ -717,7 +717,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                       </div>
                       <span className="font-bold text-white">{pet.petName}</span>
                     </div>
-                    <span className="text-[#00f090] font-mono font-bold">{formatCompactValue(pet.totalValue)} Val</span>
+                    <span className="text-[#4c82ff] font-mono font-bold">{formatCompactValue(pet.totalValue)} Val</span>
                   </div>
                 ))}
               </div>
@@ -745,7 +745,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                 <button
                   onClick={handleExecuteWithdraw}
                   disabled={isSubmittingWithdraw}
-                  className="px-5 py-2 rounded-lg bg-[#00f090] hover:bg-[#00d980] text-slate-950 font-gaming font-black text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer shadow-lg flex items-center gap-2"
+                  className="px-5 py-2 rounded-lg bg-[#2b6bf5] hover:bg-[#1f5de0] text-white font-gaming font-black text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer shadow-lg flex items-center gap-2"
                 >
                   {isSubmittingWithdraw ? (
                     <span>Processing...</span>
