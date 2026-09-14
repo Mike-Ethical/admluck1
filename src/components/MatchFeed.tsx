@@ -99,7 +99,7 @@ export const MatchFeed: React.FC<MatchFeedProps> = ({
                       {match.creator.username}
                     </span>
                     {isCreator && (
-                      <span className="px-1.5 py-0.5 rounded bg-[#00f090]/20 text-[#00f090] font-gaming text-[10px] font-black tracking-wider uppercase border border-[#00f090]/40 shrink-0">
+                      <span className="px-1.5 py-0.5 rounded bg-[#2b6bf5]/20 text-[#4c82ff] font-gaming text-[10px] font-black tracking-wider uppercase border border-[#2b6bf5]/40 shrink-0">
                         YOU
                       </span>
                     )}
@@ -112,7 +112,7 @@ export const MatchFeed: React.FC<MatchFeedProps> = ({
                     pets.map((item, idx) => (
                       <div
                         key={item.id || idx}
-                        className="w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-[#121929]/80 border border-[#202d44] hover:border-[#00f090]/50 p-1 flex items-center justify-center shrink-0 relative transition-transform hover:scale-110 shadow-sm"
+                        className="w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-[#121929]/80 border border-[#202d44] hover:border-[#2b6bf5]/50 p-1 flex items-center justify-center shrink-0 relative transition-transform hover:scale-110 shadow-sm"
                         title={`${item.variant !== 'Normal' ? item.variant + ' ' : ''}${item.petName} (${formatCompactValue(item.value)} Val)`}
                       >
                         <PetImage
@@ -216,7 +216,7 @@ export const MatchFeed: React.FC<MatchFeedProps> = ({
                     <button
                       onClick={() => onJoinMatch(match)}
                       id={`btn-join-match-${match.id}`}
-                      className="flex-1 py-3 sm:py-3.5 rounded-xl bg-[#00f090] hover:bg-[#00dc82] active:scale-[0.99] text-slate-950 font-gaming font-black text-sm sm:text-base tracking-wide transition-all shadow-[0_0_18px_rgba(0,240,144,0.35)] hover:shadow-[0_0_24px_rgba(0,240,144,0.5)] cursor-pointer flex items-center justify-center gap-2 min-w-0"
+                      className="flex-1 py-3 sm:py-3.5 rounded-xl bg-[#2b6bf5] hover:bg-[#1f5de0] active:scale-[0.99] text-white font-gaming font-black text-sm sm:text-base tracking-wide transition-all shadow-[0_0_18px_rgba(43,107,245,0.35)] hover:shadow-[0_0_24px_rgba(43,107,245,0.5)] cursor-pointer flex items-center justify-center gap-2 min-w-0"
                     >
                       <span className="truncate">Join Match ({minRange} - {maxRange})</span>
                     </button>

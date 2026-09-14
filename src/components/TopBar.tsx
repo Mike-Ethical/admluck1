@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, Package, ShieldAlert, Trophy, HelpCircle, Scale, X, LogIn, User as UserIcon, Crown } from 'lucide-react';
 import { User, InventoryItem } from '../types';
-import { BloxLuckLogo } from './BloxLuckLogo';
+import { AdmLuckLogo } from './AdmLuckLogo';
 
 interface TopBarProps {
   user: User;
@@ -47,7 +47,7 @@ export const TopBar: React.FC<TopBarProps> = ({
       <header className="h-14 bg-[#090d16]/95 backdrop-blur-md border-b border-[#162033] px-3.5 sm:px-6 flex items-center justify-between select-none z-30 sticky top-0 w-full shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
         {/* Left: Brand Logo */}
         <div className="flex items-center gap-2">
-          <BloxLuckLogo size="md" />
+          <AdmLuckLogo size="md" />
         </div>
 
         {/* Desktop-only quick action pills */}
@@ -65,11 +65,11 @@ export const TopBar: React.FC<TopBarProps> = ({
           {/* Desktop Inventory button */}
           <button
             onClick={onOpenInventory}
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#111928] hover:bg-[#162238] border border-[#00f090]/30 hover:border-[#00f090]/60 text-[#00f090] text-xs font-gaming font-bold transition-all duration-150 cursor-pointer shadow-sm hover:shadow-[0_0_12px_rgba(0,240,144,0.2)]"
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#111928] hover:bg-[#162238] border border-[#2b6bf5]/30 hover:border-[#2b6bf5]/60 text-[#4c82ff] text-xs font-gaming font-bold transition-all duration-150 cursor-pointer shadow-sm hover:shadow-[0_0_12px_rgba(43,107,245,0.2)]"
           >
-            <Package className="w-3.5 h-3.5 text-[#00f090]" />
+            <Package className="w-3.5 h-3.5 text-[#4c82ff]" />
             <span>Inventory</span>
-            <span className="px-1.5 py-0.2 rounded-md bg-[#00f090]/20 text-white font-mono text-[11px] font-bold">
+            <span className="px-1.5 py-0.2 rounded-md bg-[#2b6bf5]/20 text-white font-mono text-[11px] font-bold">
               {inventory.length}
             </span>
           </button>
@@ -99,7 +99,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                     <Crown className="w-2.5 h-2.5 fill-slate-950 stroke-[2.5]" />
                   </span>
                 ) : (
-                  <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#00f090] border border-slate-950 shadow-[0_0_6px_#00f090]" />
+                  <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#2b6bf5] border border-slate-950 shadow-[0_0_6px_#2b6bf5]" />
                 )}
               </div>
 
@@ -113,7 +113,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           ) : (
             <button
               onClick={onOpenRobloxVerify}
-              className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-gradient-to-r from-[#00f090] to-[#00dc82] hover:from-[#00ff9a] hover:to-[#00e285] text-slate-950 font-gaming font-black text-xs uppercase tracking-wider transition-all duration-150 cursor-pointer shadow-[0_0_15px_rgba(0,240,144,0.35)]"
+              className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-gradient-to-r from-[#2b6bf5] to-[#1f5de0] hover:from-[#4c82ff] hover:to-[#3476ff] text-white font-gaming font-black text-xs uppercase tracking-wider transition-all duration-150 cursor-pointer shadow-[0_0_15px_rgba(43,107,245,0.35)]"
             >
               <LogIn className="w-3.5 h-3.5 stroke-[2.5]" />
               <span>Log In</span>
@@ -156,7 +156,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             <button
               onClick={onOpenRobloxVerify}
               id="btn-mobile-login"
-              className="flex md:hidden items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#00f090] hover:bg-[#00dc82] text-slate-950 font-gaming font-black text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer shadow-[0_0_12px_rgba(0,240,144,0.3)]"
+              className="flex md:hidden items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#2b6bf5] hover:bg-[#1f5de0] text-white font-gaming font-black text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer shadow-[0_0_12px_rgba(43,107,245,0.3)]"
             >
               <LogIn className="w-3.5 h-3.5 stroke-[2.5]" />
               <span>Log In</span>
@@ -167,7 +167,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           <button
             onClick={() => setIsMobileMenuOpen(true)}
             id="btn-mobile-menu"
-            className="w-9 h-9 rounded-xl bg-[#111928] hover:bg-[#162238] border border-[#1e2a40] text-[#00f090] flex items-center justify-center transition active:scale-95 cursor-pointer shadow-sm"
+            className="w-9 h-9 rounded-xl bg-[#111928] hover:bg-[#162238] border border-[#1e2a40] text-[#4c82ff] flex items-center justify-center transition active:scale-95 cursor-pointer shadow-sm"
             title="Navigation Menu"
           >
             <Menu className="w-5 h-5 stroke-[2.5]" />
@@ -182,7 +182,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             {/* Drawer Header */}
             <div className="flex items-center justify-between pb-3 border-b border-[#1b253b]">
               <div className="flex items-center gap-2">
-                <BloxLuckLogo size="sm" />
+                <AdmLuckLogo size="sm" />
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -217,7 +217,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                         className={`text-[9px] px-1.5 py-0.5 rounded font-black font-gaming tracking-wide uppercase ${
                           isOwner
                             ? 'bg-amber-400 text-slate-950'
-                            : 'bg-[#00f090]/20 text-[#00f090]'
+                            : 'bg-[#2b6bf5]/20 text-[#4c82ff]'
                         }`}
                       >
                         {isOwner ? 'OWNER' : 'VERIFIED'}
@@ -228,12 +228,12 @@ export const TopBar: React.FC<TopBarProps> = ({
                 </div>
               ) : (
                 <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-full bg-[#162033] border border-slate-700 flex items-center justify-center text-[#00f090]">
+                  <div className="w-9 h-9 rounded-full bg-[#162033] border border-slate-700 flex items-center justify-center text-[#4c82ff]">
                     <UserIcon className="w-5 h-5" />
                   </div>
                   <div>
                     <span className="font-bold text-white text-sm block">Guest Player</span>
-                    <span className="text-xs text-[#00f090] font-gaming">Click to Log In</span>
+                    <span className="text-xs text-[#4c82ff] font-gaming">Click to Log In</span>
                   </div>
                 </div>
               )}
@@ -249,11 +249,11 @@ export const TopBar: React.FC<TopBarProps> = ({
                 }}
                 className="w-full flex items-center justify-between p-2.5 rounded-lg bg-[#141d2e] hover:bg-[#1a263d] text-slate-100 font-bold text-sm transition cursor-pointer"
               >
-                <div className="flex items-center gap-2.5 text-[#00f090]">
+                <div className="flex items-center gap-2.5 text-[#4c82ff]">
                   <Package className="w-4 h-4" />
                   <span className="text-white">My Inventory</span>
                 </div>
-                <span className="px-1.5 py-0.5 rounded bg-[#00f090]/20 text-[#00f090] text-xs font-mono font-bold">
+                <span className="px-1.5 py-0.5 rounded bg-[#2b6bf5]/20 text-[#4c82ff] text-xs font-mono font-bold">
                   {inventory.length}
                 </span>
               </button>
@@ -297,7 +297,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                 }}
                 className="w-full flex items-center gap-2.5 p-2.5 rounded-lg hover:bg-[#141d2e] text-slate-200 font-semibold text-sm transition cursor-pointer"
               >
-                <Scale className="w-4 h-4 text-[#00f090]" />
+                <Scale className="w-4 h-4 text-[#4c82ff]" />
                 <span>Provably Fair</span>
               </button>
 

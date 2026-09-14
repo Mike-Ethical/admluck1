@@ -53,7 +53,7 @@ export const ProvablyFairModal: React.FC<ProvablyFairModalProps> = ({
         {/* Header */}
         <div className="px-5 py-3.5 border-b border-[#1b2538] flex items-center justify-between bg-[#121825]">
           <div className="flex items-center gap-2.5">
-            <ShieldCheck className="w-5 h-5 text-[#00f090]" />
+            <ShieldCheck className="w-5 h-5 text-[#4c82ff]" />
             <h2 className="font-gaming font-black text-white text-base tracking-wider uppercase">
               Provably Fair Verification
             </h2>
@@ -73,7 +73,7 @@ export const ProvablyFairModal: React.FC<ProvablyFairModalProps> = ({
             <p>
               <strong className="text-white font-gaming">Cryptographic Fairness Guarantee:</strong>{' '}
               Before each match begins, the server creates a secret 256-bit random{' '}
-              <span className="text-[#00f090] font-mono">Server Seed</span> and immediately publishes its public{' '}
+              <span className="text-[#4c82ff] font-mono">Server Seed</span> and immediately publishes its public{' '}
               <span className="text-amber-400 font-mono">SHA-256 Commitment Hash</span>. Because the hash cannot be reversed, the server cannot alter the outcome once bets are placed.
             </p>
             <p className="text-slate-400">
@@ -100,7 +100,7 @@ export const ProvablyFairModal: React.FC<ProvablyFairModalProps> = ({
                   type="text"
                   value={matchId}
                   onChange={(e) => setMatchId(e.target.value)}
-                  className="w-full bg-[#151c2a] border border-[#242f44] rounded px-3 py-1.5 text-xs text-white font-mono focus:border-[#00f090] focus:outline-none"
+                  className="w-full bg-[#151c2a] border border-[#242f44] rounded px-3 py-1.5 text-xs text-white font-mono focus:border-[#2b6bf5] focus:outline-none"
                 />
               </div>
 
@@ -112,7 +112,7 @@ export const ProvablyFairModal: React.FC<ProvablyFairModalProps> = ({
                   type="text"
                   value={nonce}
                   onChange={(e) => setNonce(e.target.value)}
-                  className="w-full bg-[#151c2a] border border-[#242f44] rounded px-3 py-1.5 text-xs text-white font-mono focus:border-[#00f090] focus:outline-none"
+                  className="w-full bg-[#151c2a] border border-[#242f44] rounded px-3 py-1.5 text-xs text-white font-mono focus:border-[#2b6bf5] focus:outline-none"
                 />
               </div>
             </div>
@@ -125,7 +125,7 @@ export const ProvablyFairModal: React.FC<ProvablyFairModalProps> = ({
                 type="text"
                 value={clientSeed}
                 onChange={(e) => setClientSeed(e.target.value)}
-                className="w-full bg-[#151c2a] border border-[#242f44] rounded px-3 py-1.5 text-xs text-white font-mono focus:border-[#00f090] focus:outline-none"
+                className="w-full bg-[#151c2a] border border-[#242f44] rounded px-3 py-1.5 text-xs text-white font-mono focus:border-[#2b6bf5] focus:outline-none"
               />
             </div>
 
@@ -137,14 +137,14 @@ export const ProvablyFairModal: React.FC<ProvablyFairModalProps> = ({
                 type="text"
                 value={serverSeed}
                 onChange={(e) => setServerSeed(e.target.value)}
-                className="w-full bg-[#151c2a] border border-[#242f44] rounded px-3 py-1.5 text-xs text-white font-mono focus:border-[#00f090] focus:outline-none"
+                className="w-full bg-[#151c2a] border border-[#242f44] rounded px-3 py-1.5 text-xs text-white font-mono focus:border-[#2b6bf5] focus:outline-none"
               />
             </div>
 
             <button
               onClick={handleVerify}
               disabled={verifying}
-              className="w-full py-2 rounded bg-[#00f090] hover:bg-[#00d680] text-slate-950 font-gaming font-black text-xs uppercase tracking-wider transition-all cursor-pointer"
+              className="w-full py-2 rounded bg-[#2b6bf5] hover:bg-[#1f5de0] text-white font-gaming font-black text-xs uppercase tracking-wider transition-all cursor-pointer"
             >
               {verifying ? 'Computing Cryptographic Verification...' : 'Verify Match Now'}
             </button>
@@ -162,8 +162,8 @@ export const ProvablyFairModal: React.FC<ProvablyFairModalProps> = ({
               <div className="flex items-center gap-2 font-gaming font-bold text-sm">
                 {verificationResult.verified ? (
                   <>
-                    <CheckCircle2 className="w-5 h-5 text-[#00f090]" />
-                    <span className="text-[#00f090]">CRYPTOGRAPHICALLY VERIFIED & AUTHENTIC</span>
+                    <CheckCircle2 className="w-5 h-5 text-[#4c82ff]" />
+                    <span className="text-[#4c82ff]">CRYPTOGRAPHICALLY VERIFIED & AUTHENTIC</span>
                   </>
                 ) : (
                   <>
@@ -180,7 +180,7 @@ export const ProvablyFairModal: React.FC<ProvablyFairModalProps> = ({
                 </div>
                 <div>
                   <span className="text-slate-400">Recomputed SHA-256:</span>{' '}
-                  <span className="text-[#00f090] break-all">{verificationResult.calculatedHash}</span>
+                  <span className="text-[#4c82ff] break-all">{verificationResult.calculatedHash}</span>
                 </div>
                 <div>
                   <span className="text-slate-400">Authoritative Result:</span>{' '}

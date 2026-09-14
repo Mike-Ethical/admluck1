@@ -86,7 +86,7 @@ export const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onCl
               onClick={() => setTimeframe(tab)}
               className={`px-3 py-1 rounded text-xs font-gaming font-bold tracking-wider transition-colors cursor-pointer ${
                 timeframe === tab
-                  ? 'bg-[#00f090] text-slate-950 shadow-[0_0_8px_rgba(0,240,144,0.3)]'
+                  ? 'bg-[#2b6bf5] text-white shadow-[0_0_8px_rgba(43,107,245,0.3)]'
                   : 'bg-[#151c2a] text-slate-400 hover:text-slate-200 border border-[#1f293d]'
               }`}
             >
@@ -148,7 +148,7 @@ export const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onCl
                           <span className="text-slate-600 mx-1">/</span>
                           <span className="text-rose-400">{entry.losses}</span>
                         </td>
-                        <td className="py-3 px-3 text-center font-mono text-[#00f090] font-bold">
+                        <td className="py-3 px-3 text-center font-mono text-[#4c82ff] font-bold">
                           {entry.winRate}%
                         </td>
                         <td className="py-3 px-3 text-right font-mono font-bold text-amber-400">

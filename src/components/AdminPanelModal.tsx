@@ -445,7 +445,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
             onClick={() => setActiveTab('add-pet')}
             className={`px-3 py-1.5 rounded text-xs font-gaming font-bold tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'add-pet'
-                ? 'bg-[#00f090] text-slate-950 shadow-[0_0_8px_rgba(0,240,144,0.3)]'
+                ? 'bg-[#2b6bf5] text-white shadow-[0_0_8px_rgba(43,107,245,0.3)]'
                 : 'bg-[#151c2a] text-slate-400 hover:text-slate-200 border border-[#20293b]'
             }`}
           >
@@ -457,7 +457,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
             onClick={() => setActiveTab('users')}
             className={`px-3 py-1.5 rounded text-xs font-gaming font-bold tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'users'
-                ? 'bg-[#00f090] text-slate-950 shadow-[0_0_8px_rgba(0,240,144,0.3)]'
+                ? 'bg-[#2b6bf5] text-white shadow-[0_0_8px_rgba(43,107,245,0.3)]'
                 : 'bg-[#151c2a] text-slate-400 hover:text-slate-200 border border-[#20293b]'
             }`}
           >
@@ -469,7 +469,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
             onClick={() => setActiveTab('catalog')}
             className={`px-3 py-1.5 rounded text-xs font-gaming font-bold tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'catalog'
-                ? 'bg-[#00f090] text-slate-950 shadow-[0_0_8px_rgba(0,240,144,0.3)]'
+                ? 'bg-[#2b6bf5] text-white shadow-[0_0_8px_rgba(43,107,245,0.3)]'
                 : 'bg-[#151c2a] text-slate-400 hover:text-slate-200 border border-[#20293b]'
             }`}
           >
@@ -481,7 +481,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
             onClick={() => setActiveTab('importer')}
             className={`px-3 py-1.5 rounded text-xs font-gaming font-bold tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'importer'
-                ? 'bg-[#00f090] text-slate-950 shadow-[0_0_8px_rgba(0,240,144,0.3)]'
+                ? 'bg-[#2b6bf5] text-white shadow-[0_0_8px_rgba(43,107,245,0.3)]'
                 : 'bg-[#151c2a] text-slate-400 hover:text-slate-200 border border-[#20293b]'
             }`}
           >
@@ -493,7 +493,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
             onClick={() => setActiveTab('discord')}
             className={`px-3 py-1.5 rounded text-xs font-gaming font-bold tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'discord'
-                ? 'bg-[#00f090] text-slate-950 shadow-[0_0_8px_rgba(0,240,144,0.3)]'
+                ? 'bg-[#2b6bf5] text-white shadow-[0_0_8px_rgba(43,107,245,0.3)]'
                 : 'bg-[#151c2a] text-slate-400 hover:text-slate-200 border border-[#20293b]'
             }`}
           >
@@ -505,7 +505,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
             onClick={() => setActiveTab('audit')}
             className={`px-3 py-1.5 rounded text-xs font-gaming font-bold tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'audit'
-                ? 'bg-[#00f090] text-slate-950 shadow-[0_0_8px_rgba(0,240,144,0.3)]'
+                ? 'bg-[#2b6bf5] text-white shadow-[0_0_8px_rgba(43,107,245,0.3)]'
                 : 'bg-[#151c2a] text-slate-400 hover:text-slate-200 border border-[#20293b]'
             }`}
           >
@@ -568,7 +568,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                         onClick={() => setUseCustomPet(false)}
                         className={`px-2 py-1 rounded text-[10px] font-gaming font-bold tracking-wider transition-colors cursor-pointer border ${
                           !useCustomPet
-                            ? 'bg-[#00f090] text-slate-950 border-[#00f090]'
+                            ? 'bg-[#2b6bf5] text-white border-[#2b6bf5]'
                             : 'bg-[#151c2a] text-slate-400 border-[#222c3f]'
                         }`}
                       >
@@ -579,7 +579,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                         onClick={() => setUseCustomPet(true)}
                         className={`px-2 py-1 rounded text-[10px] font-gaming font-bold tracking-wider transition-colors cursor-pointer border ${
                           useCustomPet
-                            ? 'bg-[#00f090] text-slate-950 border-[#00f090]'
+                            ? 'bg-[#2b6bf5] text-white border-[#2b6bf5]'
                             : 'bg-[#151c2a] text-slate-400 border-[#222c3f]'
                         }`}
                       >
@@ -604,7 +604,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                             }
                           }}
                           placeholder="Search pet by name (e.g. Bat Dragon, Shadow Dragon, Cow, Frost...)"
-                          className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:border-[#00f090] focus:outline-none"
+                          className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:border-[#2b6bf5] focus:outline-none"
                         />
                       </div>
 
@@ -622,7 +622,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                                 onClick={() => setSelectedPetId(p.id)}
                                 className={`flex items-center gap-2 p-1.5 rounded text-left transition-colors cursor-pointer ${
                                   isSelected
-                                    ? 'bg-[#00f090]/20 border border-[#00f090] text-white'
+                                    ? 'bg-[#2b6bf5]/20 border border-[#2b6bf5] text-white'
                                     : 'hover:bg-[#141b29] text-slate-300 border border-transparent'
                                 }`}
                               >
@@ -630,13 +630,13 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                                 <div className="min-w-0 flex-1">
                                   <div className="text-xs font-bold font-gaming truncate">{p.name}</div>
                                   <div className="text-[10px] text-slate-400 flex items-center gap-1.5 font-mono">
-                                    <span className="text-[#00f090] font-bold">{p.value} Val</span>
+                                    <span className="text-[#4c82ff] font-bold">{p.value} Val</span>
                                     <span>•</span>
                                     <span>{p.rarity}</span>
                                   </div>
                                 </div>
                                 {isSelected && (
-                                  <CheckCircle className="w-3.5 h-3.5 text-[#00f090] shrink-0 mr-1" />
+                                  <CheckCircle className="w-3.5 h-3.5 text-[#4c82ff] shrink-0 mr-1" />
                                 )}
                               </button>
                             );
@@ -653,15 +653,15 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                         const sel = pets.find((p) => p.id === selectedPetId);
                         if (!sel) return null;
                         return (
-                          <div className="p-2.5 bg-[#0e1420] border border-[#00f090]/40 rounded-lg flex items-center gap-3">
+                          <div className="p-2.5 bg-[#0e1420] border border-[#2b6bf5]/40 rounded-lg flex items-center gap-3">
                             <PetImage src={sel.image} alt={sel.name} className="w-12 h-12" rarity={sel.rarity} />
                             <div>
                               <div className="text-xs font-bold text-white font-gaming flex items-center gap-2">
                                 <span>{sel.name}</span>
-                                <span className="px-1.5 py-0.5 rounded text-[9px] bg-[#00f090]/20 text-[#00f090] border border-[#00f090]/30 uppercase font-mono">Selected</span>
+                                <span className="px-1.5 py-0.5 rounded text-[9px] bg-[#2b6bf5]/20 text-[#4c82ff] border border-[#2b6bf5]/30 uppercase font-mono">Selected</span>
                               </div>
                               <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
-                                <span className="text-[#00f090] font-mono font-bold">Base: {sel.value} Val</span>
+                                <span className="text-[#4c82ff] font-mono font-bold">Base: {sel.value} Val</span>
                                 <span>•</span>
                                 <span className="text-slate-300">{sel.rarity}</span>
                                 <span>•</span>
@@ -683,7 +683,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                           value={customPetName}
                           onChange={(e) => setCustomPetName(e.target.value)}
                           placeholder="e.g. Neon Shadow Dragon, Candy Cannon"
-                          className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#00f090] focus:outline-none font-gaming"
+                          className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#2b6bf5] focus:outline-none font-gaming"
                         />
                       </div>
 
@@ -697,7 +697,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                             value={customImageUrl}
                             onChange={(e) => setCustomImageUrl(e.target.value)}
                             placeholder="https://... (Adopt Me image URL)"
-                            className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#00f090] focus:outline-none font-mono text-[11px]"
+                            className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#2b6bf5] focus:outline-none font-mono text-[11px]"
                           />
                         </div>
 
@@ -711,7 +711,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                             step="any"
                             value={customValue}
                             onChange={(e) => setCustomValue(e.target.value)}
-                            className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#00f090] focus:outline-none font-mono"
+                            className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#2b6bf5] focus:outline-none font-mono"
                           />
                         </div>
                       </div>
@@ -746,7 +746,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                         onClick={() => setVariant(v)}
                         className={`py-2 rounded font-gaming font-bold text-xs uppercase transition-colors cursor-pointer border ${
                           variant === v
-                            ? 'bg-[#00f090]/20 border-[#00f090] text-[#00f090]'
+                            ? 'bg-[#2b6bf5]/20 border-[#2b6bf5] text-[#4c82ff]'
                             : 'bg-[#151c2a] border-[#222c3f] text-slate-400 hover:text-white'
                         }`}
                       >
@@ -763,7 +763,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                       type="checkbox"
                       checked={fly}
                       onChange={(e) => setFly(e.target.checked)}
-                      className="w-4 h-4 rounded text-[#00f090] focus:ring-0"
+                      className="w-4 h-4 rounded text-[#4c82ff] focus:ring-0"
                     />
                     <span className="text-xs font-gaming font-bold text-white">Fly (F)</span>
                   </label>
@@ -773,7 +773,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                       type="checkbox"
                       checked={ride}
                       onChange={(e) => setRide(e.target.checked)}
-                      className="w-4 h-4 rounded text-[#00f090] focus:ring-0"
+                      className="w-4 h-4 rounded text-[#4c82ff] focus:ring-0"
                     />
                     <span className="text-xs font-gaming font-bold text-white">Ride (R)</span>
                   </label>
@@ -789,7 +789,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                       max={100}
                       value={quantity}
                       onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                      className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#00f090] focus:outline-none"
+                      className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#2b6bf5] focus:outline-none"
                     />
                   </div>
 
@@ -801,7 +801,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                       type="text"
                       value={reason}
                       onChange={(e) => setReason(e.target.value)}
-                      className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#00f090] focus:outline-none"
+                      className="w-full bg-[#151c2a] border border-[#232f45] rounded-lg px-3 py-2 text-xs text-white focus:border-[#2b6bf5] focus:outline-none"
                     />
                   </div>
                 </div>
@@ -810,7 +810,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-2.5 rounded bg-[#00f090] hover:bg-[#00d980] text-slate-950 font-gaming font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(0,240,144,0.3)] cursor-pointer active:scale-95"
+                  className="w-full py-2.5 rounded bg-[#2b6bf5] hover:bg-[#1f5de0] text-white font-gaming font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(43,107,245,0.3)] cursor-pointer active:scale-95"
                 >
                   {loading ? 'Adding to Inventory...' : 'Add to Inventory'}
                 </button>
@@ -927,7 +927,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                           {editingPetId === p.id ? (
                             <button
                               onClick={() => handleUpdateValue(p.id)}
-                              className="px-2 py-1 bg-[#00f090] text-slate-950 font-bold rounded text-[10px] cursor-pointer"
+                              className="px-2 py-1 bg-[#2b6bf5] text-white font-bold rounded text-[10px] cursor-pointer"
                             >
                               Save
                             </button>
@@ -1067,7 +1067,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                       <tr key={log.id} className="hover:bg-[#121927]">
                         <td className="py-2 px-3 text-slate-400">{new Date(log.timestamp).toLocaleString()}</td>
                         <td className="py-2 px-3 text-amber-400 font-bold">{log.admin}</td>
-                        <td className="py-2 px-3 text-[#00f090] font-bold">{log.action}</td>
+                        <td className="py-2 px-3 text-[#4c82ff] font-bold">{log.action}</td>
                         <td className="py-2 px-3 text-white">{log.user}</td>
                         <td className="py-2 px-3 text-slate-200">{log.pet}</td>
                         <td className="py-2 px-3 text-slate-400 font-sans text-xs">{log.reason}</td>

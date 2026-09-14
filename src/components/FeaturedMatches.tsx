@@ -72,7 +72,7 @@ export const FeaturedMatches: React.FC<FeaturedMatchesProps> = ({ featured, onJo
                   <span className="text-amber-400 font-gaming font-bold text-xs tracking-wider">
                     {item.value} Value
                   </span>
-                  <span className="text-[11px] text-[#00f090] font-semibold">
+                  <span className="text-[11px] text-[#4c82ff] font-semibold">
                     Ends in {formatTime(timeLeft)}
                   </span>
                 </div>
@@ -88,7 +88,7 @@ export const FeaturedMatches: React.FC<FeaturedMatchesProps> = ({ featured, onJo
               <button
                 onClick={() => onJoinFeatured(item)}
                 id={`btn-join-feat-${item.id}`}
-                className="px-4 py-1.5 rounded bg-[#00f090] hover:bg-[#00d680] text-slate-950 font-gaming font-extrabold text-xs tracking-wider transition-transform active:scale-95 shadow-[0_0_10px_rgba(0,240,144,0.3)] cursor-pointer"
+                className="px-4 py-1.5 rounded bg-[#2b6bf5] hover:bg-[#1f5de0] text-white font-gaming font-extrabold text-xs tracking-wider transition-transform active:scale-95 shadow-[0_0_10px_rgba(43,107,245,0.3)] cursor-pointer"
               >
                 Join
               </button>
