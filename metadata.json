@@ -1,0 +1,6 @@
+{
+  "name": "AdmLuck",
+  "description": "Adopt Me pet coinflip platform with provably fair matches, live global chat, comprehensive pet value catalog, internal inventory system, and verified Roblox trading.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
