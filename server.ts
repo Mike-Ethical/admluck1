@@ -23,6 +23,7 @@ import {
   initialMatches,
   initialChatMessages
 } from './src/data/initialData';
+import { createSupabaseStateStore } from './src/server/supabaseState';
 
 // Central authoritative in-memory database store
 interface DatabaseState {
@@ -31,6 +32,23 @@ interface DatabaseState {
   users: Map<string, User>;
   inventory: InventoryItem[];
   matches: CoinflipMatch[];
+  privateServerSeeds: Map<string, string>;
+  featuredMatches: FeaturedMatch[];
+  chatMessages: ChatMessage[];
+  auditLogs: AdminAuditLog[];
+  deliveryOrders: DeliveryOrder[];
+  settings: {
+    discordLink: string;
+  };
+}
+
+interface PersistedDatabaseState {
+  pets: Pet[];
+  petsCacheTimestamp: number;
+  users: Array<[string, User]>;
+  inventory: InventoryItem[];
+  matches: CoinflipMatch[];
+  privateServerSeeds?: Array<[string, string]>;
   featuredMatches: FeaturedMatch[];
   chatMessages: ChatMessage[];
   auditLogs: AdminAuditLog[];
@@ -61,6 +79,7 @@ const db: DatabaseState = {
   users: new Map<string, User>(),
   inventory: [...initialInventory],
   matches: [...initialMatches],
+  privateServerSeeds: new Map<string, string>(),
   featuredMatches: [...initialFeaturedMatches],
   chatMessages: [...initialChatMessages],
   auditLogs: [],
@@ -77,6 +96,8 @@ const db: DatabaseState = {
 export const ADMIN_ROBLOX_USER_ID = '3058833903';
 export const ADMIN_ROBLOX_USERNAME = 'cute240bunny';
 const OWNER_USERNAMES = [ADMIN_ROBLOX_USERNAME];
+const SESSION_COOKIE_NAME = 'admluck_session';
+const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
 
 // Strict helper checking if user is the sole authorized administrator
 export const isAuthorizedAdmin = (user?: User | null): boolean => {
@@ -161,6 +182,46 @@ if (db.inventory.length === 0 && db.pets.length > 0) {
   });
 }
 
+const serializeDatabaseState = (): PersistedDatabaseState => ({
+  pets: db.pets,
+  petsCacheTimestamp: db.petsCacheTimestamp,
+  users: Array.from(db.users.entries()),
+  inventory: db.inventory,
+  matches: db.matches,
+  privateServerSeeds: Array.from(db.privateServerSeeds.entries()),
+  featuredMatches: db.featuredMatches,
+  chatMessages: db.chatMessages,
+  auditLogs: db.auditLogs,
+  deliveryOrders: db.deliveryOrders,
+  settings: db.settings,
+});
+
+const hydrateDatabaseState = (state: PersistedDatabaseState): void => {
+  const privateServerSeeds = new Map(state.privateServerSeeds || []);
+  for (const match of state.matches) {
+    const legacyMatch = match as CoinflipMatch & { _privateServerSeed?: unknown };
+    if (
+      typeof legacyMatch._privateServerSeed === 'string' &&
+      !privateServerSeeds.has(match.id)
+    ) {
+      privateServerSeeds.set(match.id, legacyMatch._privateServerSeed);
+    }
+    delete legacyMatch._privateServerSeed;
+  }
+
+  db.pets = state.pets;
+  db.petsCacheTimestamp = state.petsCacheTimestamp;
+  db.users = new Map(state.users);
+  db.inventory = state.inventory;
+  db.matches = state.matches;
+  db.privateServerSeeds = privateServerSeeds;
+  db.featuredMatches = state.featuredMatches;
+  db.chatMessages = state.chatMessages;
+  db.auditLogs = state.auditLogs;
+  db.deliveryOrders = state.deliveryOrders;
+  db.settings = state.settings;
+};
+
 // Rate limiter helper for chat
 const userLastChatTimestamp = new Map<string, number>();
 
@@ -183,24 +244,169 @@ function generateFairnessData(clientSeed: string, nonce: number) {
   };
 }
 
+const parseCookies = (cookieHeader?: string): Map<string, string> => {
+  const cookies = new Map<string, string>();
+
+  for (const part of cookieHeader?.split(';') || []) {
+    const separatorIndex = part.indexOf('=');
+    if (separatorIndex === -1) continue;
+    const name = part.slice(0, separatorIndex).trim();
+    const value = part.slice(separatorIndex + 1).trim();
+    cookies.set(name, decodeURIComponent(value));
+  }
+
+  return cookies;
+};
+
+const createSessionToken = (userId: string, secret: string): string => {
+  const payload = Buffer.from(
+    JSON.stringify({
+      userId,
+      expiresAt: Date.now() + SESSION_MAX_AGE_SECONDS * 1000,
+    }),
+  ).toString('base64url');
+  const signature = crypto.createHmac('sha256', secret).update(payload).digest('base64url');
+  return `${payload}.${signature}`;
+};
+
+const verifySessionToken = (token: string, secret: string): string | null => {
+  const [payload, signature] = token.split('.');
+  if (!payload || !signature) return null;
+
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(payload)
+    .digest('base64url');
+  const signatureBuffer = Buffer.from(signature);
+  const expectedBuffer = Buffer.from(expectedSignature);
+  if (
+    signatureBuffer.length !== expectedBuffer.length ||
+    !crypto.timingSafeEqual(signatureBuffer, expectedBuffer)
+  ) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as {
+      userId?: string;
+      expiresAt?: number;
+    };
+    if (!parsed.userId || !parsed.expiresAt || parsed.expiresAt <= Date.now()) {
+      return null;
+    }
+    return parsed.userId;
+  } catch {
+    return null;
+  }
+};
+
 async function startServer() {
+  const PORT = Number(process.env.PORT) || 3000;
+  const sessionSecret =
+    process.env.SESSION_SECRET?.trim() ||
+    (process.env.NODE_ENV === 'production' ? '' : crypto.randomBytes(32).toString('hex'));
+
+  if (!sessionSecret) {
+    throw new Error('SESSION_SECRET is required in production.');
+  }
+
+  const stateStore = createSupabaseStateStore<PersistedDatabaseState>();
+  let databaseStatus: 'memory' | 'supabase' | 'error' = stateStore ? 'supabase' : 'memory';
+  let databaseError = '';
+
+  if (!stateStore && process.env.NODE_ENV === 'production') {
+    throw new Error(
+      'Supabase is required in production. Set SUPABASE_URL and SUPABASE_SECRET_KEY.',
+    );
+  }
+
+  if (stateStore) {
+    const storedState = await stateStore.load();
+    if (storedState) {
+      hydrateDatabaseState(storedState);
+    } else {
+      await stateStore.save(serializeDatabaseState());
+    }
+  } else {
+    console.warn(
+      'Supabase is not configured. Running with temporary in-memory data only.',
+    );
+  }
+
+  const persistDatabaseState = async (): Promise<void> => {
+    if (!stateStore) return;
+
+    try {
+      await stateStore.save(serializeDatabaseState());
+      databaseStatus = 'supabase';
+      databaseError = '';
+    } catch (error) {
+      databaseStatus = 'error';
+      databaseError = error instanceof Error ? error.message : 'Unknown Supabase error';
+      console.error(databaseError);
+      throw error;
+    }
+  };
+
   const app = express();
-  const PORT = 3000;
 
   app.use(express.json());
 
+  if (stateStore) {
+    app.use((req, res, next) => {
+      if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
+        return next();
+      }
+
+      const sendJson = res.json.bind(res);
+      res.json = ((body: unknown) => {
+        if (res.statusCode >= 400) {
+          return sendJson(body);
+        }
+
+        void persistDatabaseState()
+          .then(() => sendJson(body))
+          .catch(() => {
+            if (!res.headersSent) {
+              res.status(503);
+              sendJson({
+                error: 'The database write failed. No persistent changes were confirmed.',
+              });
+            }
+          });
+
+        return res;
+      }) as express.Response['json'];
+
+      next();
+    });
+  }
+
   // API health check
   app.get(['/api/health', '/health'], (_req, res) => {
-    res.json({ status: 'ok', petsLoaded: db.pets.length, usersCount: db.users.size });
+    res.status(databaseStatus === 'error' ? 503 : 200).json({
+      status: databaseStatus === 'error' ? 'degraded' : 'ok',
+      database: databaseStatus,
+      databaseError: databaseError || undefined,
+      petsLoaded: db.pets.length,
+      usersCount: db.users.size,
+    });
   });
 
   // Helper to authenticate user context
   const getUser = (req: express.Request): User => {
-    const rawId = (req.headers['x-user-id'] as string) || (req.query.userId as string) || (req.headers['authorization'] as string)?.replace('Bearer ', '');
-    if (!rawId || rawId === 'guest' || rawId === 'undefined' || rawId === 'null') {
+    const cookies = parseCookies(req.headers.cookie);
+    const cookieToken = cookies.get(SESSION_COOKIE_NAME);
+    const authorization = req.headers.authorization;
+    const bearerToken = authorization?.startsWith('Bearer ')
+      ? authorization.slice('Bearer '.length)
+      : undefined;
+    const userId = verifySessionToken(cookieToken || bearerToken || '', sessionSecret);
+
+    if (!userId) {
       return guestUser;
     }
-    const userId = rawId.trim();
+
     if (db.users.has(userId)) {
       return db.users.get(userId)!;
     }
@@ -220,15 +426,6 @@ async function startServer() {
         return u;
       }
     }
-    if (
-      lower === ADMIN_ROBLOX_USER_ID ||
-      lower === `roblox-${ADMIN_ROBLOX_USER_ID}` ||
-      lower === ADMIN_ROBLOX_USERNAME ||
-      lower === `roblox-${ADMIN_ROBLOX_USERNAME}`
-    ) {
-      return ownerUser;
-    }
-    // Return unverified guest for random visitors so they are NOT logged into owner account!
     return guestUser;
   };
 
@@ -533,6 +730,15 @@ async function startServer() {
       pendingVerifications.delete(String(pending.robloxId));
       pendingVerifications.delete(pending.robloxUsername.toLowerCase());
 
+      const sessionToken = createSessionToken(user.id, sessionSecret);
+      res.cookie(SESSION_COOKIE_NAME, sessionToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: SESSION_MAX_AGE_SECONDS * 1000,
+        path: '/',
+      });
+
       res.json({
         success: true,
         message: `Welcome, ${user.username}! Roblox verification successful.`,
@@ -544,13 +750,23 @@ async function startServer() {
     }
   });
 
+  app.post('/api/user/logout', (_req, res) => {
+    res.clearCookie(SESSION_COOKIE_NAME, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+    });
+    res.json({ success: true });
+  });
+
   // Legacy/Compatibility endpoint for verify-roblox
   app.post('/api/user/verify-roblox', async (req, res) => {
     const { robloxUsername, code } = req.body;
     if (!code) {
       // Delegate to start
       req.body.username = robloxUsername;
-      const startRes = await fetch('http://localhost:3000/api/user/roblox/start', {
+      const startRes = await fetch(`http://127.0.0.1:${PORT}/api/user/roblox/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: robloxUsername })
@@ -559,12 +775,16 @@ async function startServer() {
       return res.status(startRes.status).json(data);
     } else {
       // Delegate to check
-      const checkRes = await fetch('http://localhost:3000/api/user/roblox/check', {
+      const checkRes = await fetch(`http://127.0.0.1:${PORT}/api/user/roblox/check`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: robloxUsername })
       });
       const data = await checkRes.json();
+      const sessionCookie = checkRes.headers.get('set-cookie');
+      if (sessionCookie) {
+        res.setHeader('Set-Cookie', sessionCookie);
+      }
       return res.status(checkRes.status).json(data);
     }
   });
@@ -828,8 +1048,7 @@ async function startServer() {
       createdAt: new Date().toISOString(),
     };
 
-    (newMatch as any)._privateServerSeed = fairness.serverSeed;
-
+    db.privateServerSeeds.set(newMatch.id, fairness.serverSeed);
     db.matches.unshift(newMatch);
 
     res.json({
@@ -892,6 +1111,11 @@ async function startServer() {
       });
     }
 
+    const privateServerSeed = db.privateServerSeeds.get(match.id);
+    if (!privateServerSeed) {
+      return res.status(500).json({ error: 'The match fairness seed is unavailable.' });
+    }
+
     // Opponent side is the opposite
     const opponentSide: CoinSide = match.creator.side === 'HEADS' ? 'TAILS' : 'HEADS';
 
@@ -922,13 +1146,16 @@ async function startServer() {
     match.status = 'COMPLETED';
 
     // Reveal server seed
-    match.fairness.serverSeed = (match as any)._privateServerSeed || 'revealed_server_seed_' + match.id;
+    match.fairness.serverSeed = privateServerSeed;
+    db.privateServerSeeds.delete(match.id);
     match.fairness.verified = true;
     match.completedAt = new Date().toISOString();
 
     // Auto-delete completed match after 4 seconds as requested
     setTimeout(() => {
       db.matches = db.matches.filter((m) => m.id !== match.id);
+      db.privateServerSeeds.delete(match.id);
+      void persistDatabaseState();
     }, 4000);
 
     // Settle inventory atomically
@@ -990,6 +1217,10 @@ async function startServer() {
 
   // POST /api/matches/:id/call-bot - Instantly summon a test bot to join a waiting match
   app.post(['/api/matches/:id/call-bot', '/api/matches/call-bot', '/matches/:id/call-bot', '/matches/call-bot'], (req, res) => {
+    if (!isAuthorizedAdmin(getUser(req))) {
+      return res.status(403).json({ error: 'Admin privileges are required to use test bots.' });
+    }
+
     const matchId = req.params.id || req.body.matchId;
     const match = db.matches.find((m) => m.id === matchId);
     if (!match) {
@@ -997,6 +1228,11 @@ async function startServer() {
     }
     if (match.status !== 'WAITING') {
       return res.status(400).json({ error: 'Match is no longer waiting for opponents' });
+    }
+
+    const privateServerSeed = db.privateServerSeeds.get(match.id);
+    if (!privateServerSeed) {
+      return res.status(500).json({ error: 'The match fairness seed is unavailable.' });
     }
 
     const creatorVal = match.creator.totalValue;
@@ -1065,13 +1301,16 @@ async function startServer() {
     match.winnerSide = winnerSide;
     match.status = 'COMPLETED';
 
-    match.fairness.serverSeed = (match as any)._privateServerSeed || 'revealed_seed_' + match.id;
+    match.fairness.serverSeed = privateServerSeed;
+    db.privateServerSeeds.delete(match.id);
     match.fairness.verified = true;
     match.completedAt = new Date().toISOString();
 
     // Auto-delete completed match after 4 seconds as requested
     setTimeout(() => {
       db.matches = db.matches.filter((m) => m.id !== match.id);
+      db.privateServerSeeds.delete(match.id);
+      void persistDatabaseState();
     }, 4000);
 
     // Settle inventory:
@@ -1126,7 +1365,11 @@ async function startServer() {
   });
 
   // POST /api/matches/spawn-bot-match - Spawns a bot coinflip match for testing
-  app.post(['/api/matches/spawn-bot-match', '/matches/spawn-bot-match'], (_req, res) => {
+  app.post(['/api/matches/spawn-bot-match', '/matches/spawn-bot-match'], (req, res) => {
+    if (!isAuthorizedAdmin(getUser(req))) {
+      return res.status(403).json({ error: 'Admin privileges are required to use test bots.' });
+    }
+
     const availablePets = db.pets.filter((p) => !p.disabled && p.value >= 10);
     const pet = availablePets[Math.floor(Math.random() * availablePets.length)] || db.pets[0];
     const side: CoinSide = Math.random() > 0.5 ? 'HEADS' : 'TAILS';
@@ -1179,7 +1422,7 @@ async function startServer() {
       createdAt: new Date().toISOString(),
     };
 
-    (botMatch as any)._privateServerSeed = fairness.serverSeed;
+    db.privateServerSeeds.set(botMatch.id, fairness.serverSeed);
     db.matches.unshift(botMatch);
 
     res.json({
@@ -1248,6 +1491,7 @@ async function startServer() {
 
     // Remove match from list
     db.matches.splice(matchIndex, 1);
+    db.privateServerSeeds.delete(match.id);
 
     res.json({ success: true, message: 'Match cancelled and pets returned to inventory successfully' });
   });
@@ -1905,13 +2149,23 @@ async function startServer() {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 
-  const cleanup = () => {
+  const cleanup = async () => {
+    try {
+      await persistDatabaseState();
+    } catch {
+      process.exitCode = 1;
+    }
+
     server.close(() => {
-      process.exit(0);
+      process.exit();
     });
   };
-  process.on('SIGINT', cleanup);
-  process.on('SIGTERM', cleanup);
+  process.on('SIGINT', () => void cleanup());
+  process.on('SIGTERM', () => void cleanup());
 }
 
-startServer();
+startServer().catch((error) => {
+  const message = error instanceof Error ? error.message : 'Unknown startup error';
+  console.error(`Failed to start server: ${message}`);
+  process.exitCode = 1;
+});

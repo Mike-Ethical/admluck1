@@ -182,7 +182,6 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': user.id,
         },
         body: JSON.stringify({
           recipientUsername: tipTargetUser.trim(),

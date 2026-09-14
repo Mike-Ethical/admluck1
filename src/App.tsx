@@ -25,7 +25,7 @@ import { FaqModal } from './components/FaqModal';
 import { TosModal } from './components/TosModal';
 import { BottomNavBar } from './components/BottomNavBar';
 import { UserProfileModal } from './components/UserProfileModal';
-import { defaultUser, defaultGuestUser } from './data/initialData';
+import { defaultGuestUser } from './data/initialData';
 
 export function App() {
   // Core state initialized safely as Guest (never auto-log into owner)
@@ -63,15 +63,9 @@ export function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   // Fetch user profile
-  const fetchUserProfile = useCallback(async (explicitUserId?: string) => {
+  const fetchUserProfile = useCallback(async () => {
     try {
-      const activeId = explicitUserId ?? localStorage.getItem('bloxluck_user_id');
-      if (!activeId || activeId === 'guest') {
-        setCurrentUser(defaultGuestUser);
-        return;
-      }
-      const headers: Record<string, string> = { 'x-user-id': activeId };
-      const res = await fetch('/api/user/profile', { headers });
+      const res = await fetch('/api/user/profile');
       if (res.ok) {
         const contentType = res.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
@@ -79,12 +73,8 @@ export function App() {
           const userObj = data.user || (data.id ? data : null);
           if (userObj && userObj.id !== 'guest') {
             setCurrentUser(userObj);
-            localStorage.setItem('bloxluck_user_id', userObj.id);
-            localStorage.setItem('bloxluck_user', JSON.stringify(userObj));
           } else {
             setCurrentUser(defaultGuestUser);
-            localStorage.removeItem('bloxluck_user_id');
-            localStorage.removeItem('bloxluck_user');
           }
         }
       }
@@ -94,15 +84,9 @@ export function App() {
   }, []);
 
   // Fetch inventory
-  const fetchInventory = useCallback(async (explicitUserId?: string) => {
+  const fetchInventory = useCallback(async () => {
     try {
-      const activeId = explicitUserId ?? localStorage.getItem('bloxluck_user_id');
-      if (!activeId || activeId === 'guest') {
-        setInventory([]);
-        return;
-      }
-      const headers: Record<string, string> = { 'x-user-id': activeId };
-      const res = await fetch('/api/inventory', { headers });
+      const res = await fetch('/api/inventory');
       if (res.ok) {
         const contentType = res.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
@@ -186,37 +170,8 @@ export function App() {
 
   // Initial load
   useEffect(() => {
-    const savedUserStr = localStorage.getItem('bloxluck_user');
-    const savedUserId = localStorage.getItem('bloxluck_user_id');
-
-    // Restore verified user from localStorage
-    if (savedUserId && savedUserId !== 'guest' && savedUserStr) {
-      try {
-        const parsed = JSON.parse(savedUserStr);
-        if (parsed && parsed.verified && parsed.id !== 'guest') {
-          setCurrentUser(parsed);
-          fetchUserProfile(savedUserId);
-          fetchInventory(savedUserId);
-        } else {
-          setCurrentUser(defaultGuestUser);
-        }
-      } catch (e) {
-        setCurrentUser(defaultGuestUser);
-      }
-    } else if (
-      savedUserId &&
-      (savedUserId === 'cute240bunny' ||
-        savedUserId === 'roblox-cute240bunny' ||
-        savedUserId === '3058833903' ||
-        savedUserId === 'roblox-3058833903')
-    ) {
-      setCurrentUser(defaultUser);
-      fetchUserProfile(savedUserId);
-      fetchInventory(savedUserId);
-    } else {
-      setCurrentUser(defaultGuestUser);
-    }
-
+    fetchUserProfile();
+    fetchInventory();
     fetchMatches();
     fetchFeatured();
     fetchChat();
@@ -234,20 +189,21 @@ export function App() {
   // Handle successful Roblox verification
   const handleVerifiedUser = (updatedUser: User) => {
     setCurrentUser(updatedUser);
-    localStorage.setItem('bloxluck_user_id', updatedUser.id);
-    localStorage.setItem('bloxluck_user', JSON.stringify(updatedUser));
-    fetchInventory(updatedUser.id);
-    fetchUserProfile(updatedUser.id);
+    fetchInventory();
+    fetchUserProfile();
   };
 
   // Handle Logout
-  const handleLogout = () => {
-    localStorage.removeItem('bloxluck_user_id');
-    localStorage.removeItem('bloxluck_user');
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/user/logout', { method: 'POST' });
+    } catch (err) {
+      console.error('Failed to log out on the server', err);
+    }
     setCurrentUser(defaultGuestUser);
     setIsAdminOpen(false);
     setIsRobloxVerifyOpen(false);
-    fetchInventory('guest');
+    fetchInventory();
   };
 
   // Handle Send Chat Message (Require real Roblox account login)
@@ -260,7 +216,6 @@ export function App() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-user-id': currentUser.id,
       },
       body: JSON.stringify({ message: msg }),
     });
@@ -268,7 +223,7 @@ export function App() {
       const data = await res.json();
       setChatMessages((prev) => [...prev, data.message]);
       if (data.message?.message?.includes('Tipped')) {
-        fetchInventory(currentUser.id);
+        fetchInventory();
       }
       return true;
     }
@@ -283,7 +238,6 @@ export function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': currentUser.id,
         },
         body: JSON.stringify({ messageId, reason: 'Inappropriate language' }),
       });
@@ -305,13 +259,12 @@ export function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': currentUser.id,
         },
       });
       if (res.ok) {
         fetchMatches();
         if (currentUser.id && currentUser.id !== 'guest') {
-          fetchInventory(currentUser.id);
+          fetchInventory();
         }
       } else {
         const err = await res.json();
@@ -341,15 +294,14 @@ export function App() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-user-id': currentUser.id,
       },
       body: JSON.stringify({ itemIds: selectedItemIds, side, maxJoinerPets }),
     });
 
     if (res.ok) {
       fetchMatches();
-      fetchInventory(currentUser.id);
-      fetchUserProfile(currentUser.id);
+      fetchInventory();
+      fetchUserProfile();
     } else {
       const err = await res.json();
       throw new Error(err.error || 'Failed to create match');
@@ -376,7 +328,6 @@ export function App() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-user-id': currentUser.id,
       },
       body: JSON.stringify({ matchId, itemIds: selectedItemIds }),
     });
@@ -384,8 +335,8 @@ export function App() {
     if (res.ok) {
       const data = await res.json();
       fetchMatches();
-      fetchInventory(currentUser.id);
-      fetchUserProfile(currentUser.id);
+      fetchInventory();
+      fetchUserProfile();
 
       // Launch 3D coinflip animation modal with server outcome!
       setAnimatingMatch(data.match);
@@ -403,7 +354,6 @@ export function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': currentUser.id,
         },
         body: JSON.stringify({ matchId: match.id }),
       });
@@ -411,8 +361,8 @@ export function App() {
       if (res.ok) {
         const data = await res.json();
         fetchMatches();
-        fetchInventory(currentUser.id);
-        fetchUserProfile(currentUser.id);
+        fetchInventory();
+        fetchUserProfile();
 
         // Immediately launch coinflip animation for the match!
         setAnimatingMatch(data.match);
@@ -433,7 +383,6 @@ export function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': currentUser.id,
         },
       });
       if (res.ok) {
@@ -469,7 +418,6 @@ export function App() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-user-id': currentUser.id,
       },
       body: JSON.stringify({ itemIds }),
     });
@@ -477,8 +425,8 @@ export function App() {
     if (res.ok) {
       const data = await res.json();
       // Instantly refresh inventory and user profile so withdrawn pets disappear
-      fetchInventory(currentUser.id);
-      fetchUserProfile(currentUser.id);
+      fetchInventory();
+      fetchUserProfile();
       if (data.discordLink) {
         setDiscordLink(data.discordLink);
       }
@@ -494,6 +442,7 @@ export function App() {
     if (!showOnlyMyMatches) return true;
     return m.creator.userId === currentUser.id || m.opponent?.userId === currentUser.id;
   });
+  const canUseTestBots = currentUser.verified && currentUser.role === 'admin';
 
   return (
     <div className="min-h-screen bg-[#0a0d14] text-slate-100 flex flex-col font-sans selection:bg-[#00f090] selection:text-slate-950">
@@ -547,7 +496,7 @@ export function App() {
             onCreateMatch={() => {
               setIsCreateOpen(true);
             }}
-            onCallBotMatch={handleCallBotMatch}
+            onCallBotMatch={canUseTestBots ? handleCallBotMatch : undefined}
           />
 
           {/* DENSE SCROLLING MATCH FEED */}
@@ -564,8 +513,8 @@ export function App() {
               setIsAnimationOpen(true);
             }}
             onCancelMatch={handleCancelMatch}
-            onCallBot={handleCallBot}
-            onCallBotMatch={handleCallBotMatch}
+            onCallBot={canUseTestBots ? handleCallBot : undefined}
+            onCallBotMatch={canUseTestBots ? handleCallBotMatch : undefined}
           />
         </main>
 
@@ -654,7 +603,7 @@ export function App() {
         user={currentUser}
         discordLink={discordLink}
         onOpenRobloxVerify={() => setIsRobloxVerifyOpen(true)}
-        onInventoryRefreshed={() => fetchInventory(currentUser.id)}
+        onInventoryRefreshed={() => fetchInventory()}
       />
 
       {/* 5. Leaderboard Modal */}
@@ -702,7 +651,7 @@ export function App() {
         onClose={() => setIsAdminOpen(false)}
         currentUser={currentUser}
         onInventoryUpdated={() => {
-          fetchInventory(currentUser.id);
+          fetchInventory();
           fetchMatches();
         }}
       />

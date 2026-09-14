@@ -97,17 +97,15 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
     const fetchAdminData = async () => {
       setLoading(true);
       try {
-        const headers = { 'x-user-id': currentUser.id || 'roblox-cute240bunny' };
-
         // 0. Verify server-side authorization check first
-        const checkRes = await fetch('/api/admin/check', { headers });
+        const checkRes = await fetch('/api/admin/check');
         if (checkRes.status === 403 || !checkRes.ok) {
           setIsUnauthorized(true);
           return;
         }
 
         // 1. Fetch users
-        const usersRes = await fetch('/api/admin/users', { headers });
+        const usersRes = await fetch('/api/admin/users');
         if (usersRes.ok) {
           const usersData = await usersRes.json();
           setUsers(usersData.users || []);
@@ -124,7 +122,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
         }
 
         // 3. Fetch audit logs
-        const auditRes = await fetch('/api/admin/audit-log', { headers });
+        const auditRes = await fetch('/api/admin/audit-log');
         if (auditRes.ok) {
           const auditData = await auditRes.json();
           setAuditLogs(auditData.logs || []);
@@ -157,9 +155,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
 
   const fetchUserInventory = async (uid: string) => {
     try {
-      const res = await fetch(`/api/admin/inventory/${uid}`, {
-        headers: { 'x-user-id': currentUser.id || 'roblox-cute240bunny' },
-      });
+      const res = await fetch(`/api/admin/inventory/${uid}`);
       if (res.ok) {
         const data = await res.json();
         setInspectItems(data.items || []);
@@ -182,7 +178,6 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': currentUser.id,
         },
         body: JSON.stringify({
           username: targetUsername.trim(),
@@ -209,9 +204,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
         setMessage({ type: 'success', text: data.message });
         onInventoryUpdated();
         // Refresh audit logs
-        const auditRes = await fetch('/api/admin/audit-log', {
-          headers: { 'x-user-id': currentUser.id },
-        });
+        const auditRes = await fetch('/api/admin/audit-log');
         const auditData = await auditRes.json();
         setAuditLogs(auditData.logs || []);
       } else {
@@ -231,7 +224,6 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': currentUser.id || 'roblox-cute240bunny',
         },
         body: JSON.stringify({ itemId, reason: 'Admin manual removal' }),
       });
@@ -254,7 +246,6 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': currentUser.id || 'roblox-cute240bunny',
         },
         body: JSON.stringify({ petId, newValue: newPetValue }),
       });
@@ -280,7 +271,6 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': currentUser.id || 'roblox-cute240bunny',
         },
         body: JSON.stringify({ petId, disabled: !currentDisabled }),
       });
@@ -304,7 +294,6 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': currentUser.id || 'roblox-cute240bunny',
         },
         body: JSON.stringify({ petsData: parsed, source: 'AMVGG JSON Import' }),
       });
@@ -339,7 +328,6 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': currentUser.id || 'roblox-cute240bunny',
         },
         body: JSON.stringify({ discordLink: discordLinkInput.trim() }),
       });
@@ -352,9 +340,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
         setMessage({ type: 'success', text: `Discord server link updated to "${data.discordLink}"` });
         setDiscordLinkInput(data.discordLink);
         // Refresh audit logs
-        const auditRes = await fetch('/api/admin/audit-log', {
-          headers: { 'x-user-id': currentUser.id || 'roblox-cute240bunny' },
-        });
+        const auditRes = await fetch('/api/admin/audit-log');
         const auditData = await auditRes.json();
         setAuditLogs(auditData.logs || []);
       } else {
