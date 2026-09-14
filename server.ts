@@ -32,6 +32,7 @@ interface DatabaseState {
   users: Map<string, User>;
   inventory: InventoryItem[];
   matches: CoinflipMatch[];
+  privateServerSeeds: Map<string, string>;
   featuredMatches: FeaturedMatch[];
   chatMessages: ChatMessage[];
   auditLogs: AdminAuditLog[];
@@ -47,6 +48,7 @@ interface PersistedDatabaseState {
   users: Array<[string, User]>;
   inventory: InventoryItem[];
   matches: CoinflipMatch[];
+  privateServerSeeds?: Array<[string, string]>;
   featuredMatches: FeaturedMatch[];
   chatMessages: ChatMessage[];
   auditLogs: AdminAuditLog[];
@@ -77,6 +79,7 @@ const db: DatabaseState = {
   users: new Map<string, User>(),
   inventory: [...initialInventory],
   matches: [...initialMatches],
+  privateServerSeeds: new Map<string, string>(),
   featuredMatches: [...initialFeaturedMatches],
   chatMessages: [...initialChatMessages],
   auditLogs: [],
@@ -185,6 +188,7 @@ const serializeDatabaseState = (): PersistedDatabaseState => ({
   users: Array.from(db.users.entries()),
   inventory: db.inventory,
   matches: db.matches,
+  privateServerSeeds: Array.from(db.privateServerSeeds.entries()),
   featuredMatches: db.featuredMatches,
   chatMessages: db.chatMessages,
   auditLogs: db.auditLogs,
@@ -193,11 +197,24 @@ const serializeDatabaseState = (): PersistedDatabaseState => ({
 });
 
 const hydrateDatabaseState = (state: PersistedDatabaseState): void => {
+  const privateServerSeeds = new Map(state.privateServerSeeds || []);
+  for (const match of state.matches) {
+    const legacyMatch = match as CoinflipMatch & { _privateServerSeed?: unknown };
+    if (
+      typeof legacyMatch._privateServerSeed === 'string' &&
+      !privateServerSeeds.has(match.id)
+    ) {
+      privateServerSeeds.set(match.id, legacyMatch._privateServerSeed);
+    }
+    delete legacyMatch._privateServerSeed;
+  }
+
   db.pets = state.pets;
   db.petsCacheTimestamp = state.petsCacheTimestamp;
   db.users = new Map(state.users);
   db.inventory = state.inventory;
   db.matches = state.matches;
+  db.privateServerSeeds = privateServerSeeds;
   db.featuredMatches = state.featuredMatches;
   db.chatMessages = state.chatMessages;
   db.auditLogs = state.auditLogs;
@@ -1031,8 +1048,7 @@ async function startServer() {
       createdAt: new Date().toISOString(),
     };
 
-    (newMatch as any)._privateServerSeed = fairness.serverSeed;
-
+    db.privateServerSeeds.set(newMatch.id, fairness.serverSeed);
     db.matches.unshift(newMatch);
 
     res.json({
@@ -1095,6 +1111,11 @@ async function startServer() {
       });
     }
 
+    const privateServerSeed = db.privateServerSeeds.get(match.id);
+    if (!privateServerSeed) {
+      return res.status(500).json({ error: 'The match fairness seed is unavailable.' });
+    }
+
     // Opponent side is the opposite
     const opponentSide: CoinSide = match.creator.side === 'HEADS' ? 'TAILS' : 'HEADS';
 
@@ -1125,13 +1146,15 @@ async function startServer() {
     match.status = 'COMPLETED';
 
     // Reveal server seed
-    match.fairness.serverSeed = (match as any)._privateServerSeed || 'revealed_server_seed_' + match.id;
+    match.fairness.serverSeed = privateServerSeed;
+    db.privateServerSeeds.delete(match.id);
     match.fairness.verified = true;
     match.completedAt = new Date().toISOString();
 
     // Auto-delete completed match after 4 seconds as requested
     setTimeout(() => {
       db.matches = db.matches.filter((m) => m.id !== match.id);
+      db.privateServerSeeds.delete(match.id);
       void persistDatabaseState();
     }, 4000);
 
@@ -1207,6 +1230,11 @@ async function startServer() {
       return res.status(400).json({ error: 'Match is no longer waiting for opponents' });
     }
 
+    const privateServerSeed = db.privateServerSeeds.get(match.id);
+    if (!privateServerSeed) {
+      return res.status(500).json({ error: 'The match fairness seed is unavailable.' });
+    }
+
     const creatorVal = match.creator.totalValue;
 
     // Pick pet from catalog closest to creatorVal and calibrate to EXACT creator value
@@ -1273,13 +1301,15 @@ async function startServer() {
     match.winnerSide = winnerSide;
     match.status = 'COMPLETED';
 
-    match.fairness.serverSeed = (match as any)._privateServerSeed || 'revealed_seed_' + match.id;
+    match.fairness.serverSeed = privateServerSeed;
+    db.privateServerSeeds.delete(match.id);
     match.fairness.verified = true;
     match.completedAt = new Date().toISOString();
 
     // Auto-delete completed match after 4 seconds as requested
     setTimeout(() => {
       db.matches = db.matches.filter((m) => m.id !== match.id);
+      db.privateServerSeeds.delete(match.id);
       void persistDatabaseState();
     }, 4000);
 
@@ -1392,7 +1422,7 @@ async function startServer() {
       createdAt: new Date().toISOString(),
     };
 
-    (botMatch as any)._privateServerSeed = fairness.serverSeed;
+    db.privateServerSeeds.set(botMatch.id, fairness.serverSeed);
     db.matches.unshift(botMatch);
 
     res.json({
@@ -1461,6 +1491,7 @@ async function startServer() {
 
     // Remove match from list
     db.matches.splice(matchIndex, 1);
+    db.privateServerSeeds.delete(match.id);
 
     res.json({ success: true, message: 'Match cancelled and pets returned to inventory successfully' });
   });
